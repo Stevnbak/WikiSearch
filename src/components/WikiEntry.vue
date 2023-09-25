@@ -2,6 +2,7 @@
 	<a class="entry" :href="info.homepage" target="_blank">
 		<h2>{{ info.name }}</h2>
 		<p>URL: {{ info.homepage }}</p>
+		<p>Language: {{ info.lang }}</p>
 		<div v-if="info.games" class="category games">
 			<h3>Games</h3>
 			<li v-for="game in info.games">{{ game }}</li>

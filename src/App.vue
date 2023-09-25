@@ -6,8 +6,12 @@
 		<div class="search">
 			<SearchBar @result="recieveResults"></SearchBar>
 		</div>
-		<div class="entries">
+		<div class="entries" v-if="results.length != 0">
+			<p class="status">Found {{ results.length }} results in {{ time }} ms</p>
 			<WikiEntry v-for="entry in results" :info="entry"></WikiEntry>
+		</div>
+		<div class="entries" v-else>
+			<h2>No wikis found</h2>
 		</div>
 	</main>
 	<footer>
@@ -36,7 +40,7 @@
 		},
 		methods: {
 			recieveResults(e: any) {
-				console.log("Recieved result", e);
+				console.log("Recieved result:", e);
 				this.results = e;
 			}
 		},

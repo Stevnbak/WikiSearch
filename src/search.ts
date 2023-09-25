@@ -1,21 +1,27 @@
 import type {wikiData} from "@/main";
 
 let rawData: wikiData[];
-async function Data() {
+export async function Data() {
 	if (rawData) return rawData as wikiData[];
 	else {
 		let response = await fetch("https://raw.githubusercontent.com/GameWikis/WikiLookup/master/WikiLookup.json");
-		rawData = await response.json();
+		let raw = await response.json();
+		//For testing to make list bigger:
+		let data = [];
+		for (let i = 0; i < 10; i++) {
+			data.push(...raw);
+		}
+		rawData = data;
 		return rawData as wikiData[];
 	}
 }
 
-export async function search(searchTerm: string) {
+export async function search(searchTerm: string, options: {lang: string}) {
 	const startTime = Date.now();
-	const data = await Data();
+	const data = (await Data()).filter((a) => options.lang == "all" || a.lang == options.lang);
 	console.log("Search: " + searchTerm);
 	//No search
-	if (searchTerm == "") return {result: data, time: Date.now() - startTime};
+	if (searchTerm == "") return {result: data.slice(0, 50), time: Date.now() - startTime};
 	//Filter from settings
 
 	//Search
@@ -46,5 +52,6 @@ export async function search(searchTerm: string) {
 		.filter((a) => a.score != 0)
 		.sort((a, b) => b.score - a.score)
 		.map((a) => a.wiki);
-	return {result: results, time: Date.now() - startTime};
+	//Return
+	return {result: results.slice(0, 50), time: Date.now() - startTime};
 }

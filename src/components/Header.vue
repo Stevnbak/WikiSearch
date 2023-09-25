@@ -1,5 +1,7 @@
 <template>
-	<div class="header">Header</div>
+	<div class="header">
+		<h1>Independent wikis lookup</h1>
+	</div>
 </template>
 
 <style scoped>
