@@ -18,6 +18,9 @@
 			<h3>Genres</h3>
 			<li v-for="genres in info.genres">{{ genres }}</li>
 		</div>
+		<div v-if="info.api" class="logo">{{getWikiLogo(info.api)}}
+			<img :src="imageUrls[info.api]" onerror="this.style.display='none'">
+		</div>
 	</a>
 </template>
 
@@ -25,13 +28,35 @@
 	import {defineComponent} from "vue";
 	import type {wikiData} from "@/main";
 	import type {PropType} from "vue";
-
 	export default defineComponent({
 		props: {
 			info: {
 				type: Object as PropType<wikiData>,
 				required: true
 			}
+		},
+		data() {
+			return {
+				imageUrls: {} as any
+			}
+		},
+		methods: {
+			getWikiLogo(url: string) : void {
+				let getRequest = url + "?action=query&meta=siteinfo&formatversion=2&format=json&origin=*"
+				console.log(getRequest)
+				let image = ""
+				fetch(getRequest, {})
+					.then ((response) => response.json())
+					.then ((response) => {
+						image = response.query.general.logo
+						if (image.includes('change-your-logo.svg')) {
+							this.imageUrls[url] = ""
+						} else {
+							this.imageUrls[url] = image
+
+						}
+					})
+			},
 		}
 	});
 </script>
@@ -83,5 +108,10 @@
 		flex-direction: column;
 		justify-content: flex-start;
 		align-items: flex-start;
+	}
+
+	.logo img {
+		width: 15rem;
+		height: 15rem;
 	}
 </style>

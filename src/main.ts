@@ -2,6 +2,7 @@ export type wikiData = {
 	name: string;
 	homepage: string;
 	lang: string;
+	api: string;
 	companies?: string[];
 	games?: string[];
 	genres?: string[];
