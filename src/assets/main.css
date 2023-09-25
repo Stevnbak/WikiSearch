@@ -1,0 +1,12 @@
+@import "./base.css";
+
+body {
+	width: 100%;
+	overflow-x: hidden;
+	min-height: 100vh;
+	margin: 0 0;
+	font-weight: normal;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
