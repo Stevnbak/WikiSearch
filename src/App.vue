@@ -7,6 +7,7 @@
 			<SearchBar @result="recieveResults"></SearchBar>
 		</div>
 		<div class="entries">
+			<p class="status">Found {{ results.length }} results in {{ time }} ms</p>
 			<WikiEntry v-for="entry in results" :info="entry"></WikiEntry>
 		</div>
 	</main>
@@ -36,7 +37,7 @@
 		},
 		methods: {
 			recieveResults(e: any) {
-				console.log("Recieved result", e);
+				console.log("Recieved result:", e);
 				this.results = e;
 			}
 		},
