@@ -8,7 +8,7 @@ export async function Data() {
 		let raw = await response.json();
 		//For testing to make list bigger:
 		let data = [];
-		for (let i = 0; i < 10; i++) {
+		for (let i = 0; i < 1; i++) {
 			data.push(...raw);
 		}
 		rawData = data;
@@ -33,7 +33,7 @@ export async function search(searchTerm: string, options: {lang: string}) {
 	score
 		.filter((a) => a.wiki.name.toLowerCase().includes(searchTerm))
 		.forEach((item) => {
-			item.score += 10;
+			item.score += 15;
 		});
 	//Search through categories
 	let categories = {games: 9, series: 8, companies: 5, genres: 2};
