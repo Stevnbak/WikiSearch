@@ -73,12 +73,12 @@
 				fetch(getRequest, {})
 					.then((response) => response.json())
 					.catch(() => {
-						this.imageUrls[url] = "/none.png";
+						this.imageUrls[url] = "none.png";
 					})
 					.then((response) => {
 						let image = response.query.general.logo;
 						if (image.includes("change-your-logo.svg")) {
-							this.imageUrls[url] = "/none.png";
+							this.imageUrls[url] = "none.png";
 						} else {
 							this.imageUrls[url] = image;
 						}
