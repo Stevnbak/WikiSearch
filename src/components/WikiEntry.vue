@@ -45,14 +45,16 @@
 		methods: {
 			getWikiLogo(url: string): void {
 				let getRequest = url + "?action=query&meta=siteinfo&formatversion=2&format=json&origin=*";
-				console.log(getRequest);
-				let image = "";
+				///console.log(getRequest);
 				fetch(getRequest, {})
 					.then((response) => response.json())
+					.catch(() => {
+						this.imageUrls[url] = "/none.png";
+					})
 					.then((response) => {
-						image = response.query.general.logo;
+						let image = response.query.general.logo;
 						if (image.includes("change-your-logo.svg")) {
-							this.imageUrls[url] = "";
+							this.imageUrls[url] = "/none.png";
 						} else {
 							this.imageUrls[url] = image;
 						}

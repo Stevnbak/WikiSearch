@@ -63,8 +63,8 @@
 		methods: {
 			recieveResults(e: any) {
 				console.log("Recieved result:", e);
-				this.currentPage = 1;
 				this.totalPages = Math.ceil(e.length / this.resultsPerPage);
+				this.switchPage(1, true);
 				this.results = e;
 			},
 			switchPage(value: number, set: boolean) {
