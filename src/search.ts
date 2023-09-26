@@ -8,7 +8,7 @@ export async function Data() {
 		let raw = await response.json();
 		//For testing to make list bigger:
 		let data = [];
-		for (let i = 0; i < 1; i++) {
+		for (let i = 0; i < 100; i++) {
 			data.push(...raw);
 		}
 		rawData = data;
@@ -21,7 +21,7 @@ export async function search(searchTerm: string, options: {lang: string}) {
 	const data = (await Data()).filter((a) => options.lang == "all" || a.lang == options.lang);
 	console.log("Search: " + searchTerm);
 	//No search
-	if (searchTerm == "") return {result: data.slice(0, 50), time: Date.now() - startTime};
+	if (searchTerm == "") return {result: data, time: Date.now() - startTime};
 	//Filter from settings
 
 	//Search
@@ -53,5 +53,5 @@ export async function search(searchTerm: string, options: {lang: string}) {
 		.sort((a, b) => b.score - a.score)
 		.map((a) => a.wiki);
 	//Return
-	return {result: results.slice(0, 50), time: Date.now() - startTime};
+	return {result: results, time: Date.now() - startTime};
 }

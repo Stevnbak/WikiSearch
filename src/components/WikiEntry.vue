@@ -19,8 +19,9 @@
 			<h3>Genres</h3>
 			<li v-for="genres in info.genres">{{ genres }}</li>
 		</div>
-		<div v-if="info.api" class="logo">{{getWikiLogo(info.api)}}
-			<img :src="imageUrls[info.api]" onerror="this.style.display='none'">
+		<div v-if="info.api" class="logo">
+			{{ getWikiLogo(info.api) }}
+			<img :src="imageUrls[info.api]" onerror="this.style.display='none'" />
 		</div>
 	</a>
 </template>
@@ -39,25 +40,24 @@
 		data() {
 			return {
 				imageUrls: {} as any
-			}
+			};
 		},
 		methods: {
-			getWikiLogo(url: string) : void {
-				let getRequest = url + "?action=query&meta=siteinfo&formatversion=2&format=json&origin=*"
-				console.log(getRequest)
-				let image = ""
+			getWikiLogo(url: string): void {
+				let getRequest = url + "?action=query&meta=siteinfo&formatversion=2&format=json&origin=*";
+				console.log(getRequest);
+				let image = "";
 				fetch(getRequest, {})
-					.then ((response) => response.json())
-					.then ((response) => {
-						image = response.query.general.logo
-						if (image.includes('change-your-logo.svg')) {
-							this.imageUrls[url] = ""
+					.then((response) => response.json())
+					.then((response) => {
+						image = response.query.general.logo;
+						if (image.includes("change-your-logo.svg")) {
+							this.imageUrls[url] = "";
 						} else {
-							this.imageUrls[url] = image
-
+							this.imageUrls[url] = image;
 						}
-					})
-			},
+					});
+			}
 		}
 	});
 </script>
