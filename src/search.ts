@@ -20,6 +20,7 @@ export async function search(searchTerm: string, options: {lang: string}) {
 	const startTime = Date.now();
 	const data = (await Data()).filter((a) => options.lang == "all" || a.lang == options.lang);
 	console.log("Search: " + searchTerm);
+	searchTerm = searchTerm.toLowerCase();
 	//No search
 	if (searchTerm == "") return {result: data, time: Date.now() - startTime};
 	//Filter from settings
