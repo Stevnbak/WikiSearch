@@ -7,10 +7,17 @@
 <style scoped>
 	.header {
 		width: 100%;
-		height: 5vh;
+		min-height: 7.5vh;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
+		border-bottom: 5px solid var(--accent);
+		padding: 1rem;
+	}
+	.header h1 {
+		color: var(--accent);
+		font-weight: 700;
+		font-size: 4vh;
 	}
 </style>

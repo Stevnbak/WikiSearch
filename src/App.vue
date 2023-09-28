@@ -3,27 +3,28 @@
 		<Header></Header>
 	</header>
 	<main>
-		<SearchBar class="search" @result="recieveResults"></SearchBar>
+		<SearchBar class="pages" @result="recieveResults"></SearchBar>
 		<div class="pages">
-			<p class="status">Found {{ results.length }} results in {{ time }} ms</p>
-			<div class="tab">
-				<button @click.prevent="switchPage(1, true)" :disabled="currentPage == 1">First</button>
-				<button @click.prevent="switchPage(-1, false)" :disabled="currentPage == 1">Previous</button>
-				<p>Page {{ currentPage }} of {{ totalPages }}</p>
-				<button @click.prevent="switchPage(1, false)" :disabled="currentPage == totalPages">Next</button>
-				<button @click.prevent="switchPage(totalPages, true)" :disabled="currentPage == totalPages">Last</button>
+			<!--<p class="status">Found {{ results.length }} results in {{ time }} ms</p>-->
+			<div class="tab top">
 				<div>
-					<label>Results per page:</label>
-					<select v-model="resultsPerPage" @change="changeResultsPerPage">
-						<option value="5">5</option>
-						<option value="10">10</option>
-						<option value="20">20</option>
-						<option value="30">30</option>
-						<option value="40">40</option>
-						<option value="50">50</option>
-						<option value="100">100</option>
-					</select>
+					<button @click.prevent="switchPage(1, true)" :disabled="currentPage == 1">First</button>
+					<button @click.prevent="switchPage(-1, false)" :disabled="currentPage == 1">Previous</button>
 				</div>
+				<p>Page {{ currentPage }} of {{ totalPages }}</p>
+				<div>
+					<button @click.prevent="switchPage(1, false)" :disabled="currentPage == totalPages">Next</button>
+					<button @click.prevent="switchPage(totalPages, true)" :disabled="currentPage == totalPages">Last</button>
+				</div>
+			</div>
+			<div class="tab">
+				<label>Results per page:</label>
+				<select v-model="resultsPerPage" @change="changeResultsPerPage">
+					<option value="5">5</option>
+					<option value="10">10</option>
+					<option value="25">25</option>
+					<option value="50">50</option>
+				</select>
 			</div>
 		</div>
 		<div class="entries" v-if="results.length != 0">
@@ -87,7 +88,7 @@
 
 <style scoped>
 	main {
-		min-height: 90vh;
+		min-height: 85vh;
 		width: 100%;
 		display: flex;
 		flex-direction: column;
@@ -95,16 +96,18 @@
 		align-items: center;
 	}
 	.entries {
-		width: 100%;
+		width: 50%;
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
 		align-items: center;
+		border-bottom: 3px solid var(--color-border);
+		border-top: 3px solid var(--color-border);
 	}
-	.search,
+
+	/* Page selection */
 	.pages {
 		width: 50%;
-		height: 10rem;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -112,9 +115,57 @@
 	}
 	.tab {
 		width: 100%;
+		min-height: 4rem;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
+		flex-wrap: wrap;
+		padding-top: 0.75rem;
+		padding-bottom: 0.75rem;
+		background-color: var(--color-background-soft);
+	}
+	.tab.top {
+		border-radius: 0.75rem 0.75rem 0 0;
+	}
+	.pages button {
+		width: 5rem;
+		height: 1.5rem;
+		border-radius: 0.4rem;
+		border: none;
+		padding: 0;
+		margin-right: 0.2rem;
+		margin-left: 0.2rem;
+		font-weight: bold;
+		cursor: pointer;
+	}
+	.pages button:disabled {
+		cursor: not-allowed;
+	}
+	.pages select {
+		width: 3rem;
+		height: 1.5rem;
+		padding: 0;
+		margin-right: 0.2rem;
+		margin-left: 0.2rem;
+		font-weight: bold;
+		text-align: center;
+		border-radius: 0.4rem;
+	}
+	.pages .tab select:focus-within {
+		border-radius: 0.4rem 0.4rem 0 0;
+	}
+
+	/* Mobile */
+	@media screen and (max-width: 1200px) {
+		.entries,
+		.pages {
+			width: 90%;
+		}
+	}
+	@media screen and (max-width: 600px) {
+		.tab.top {
+			flex-direction: column;
+		}
 	}
 </style>

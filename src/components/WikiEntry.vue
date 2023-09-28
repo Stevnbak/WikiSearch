@@ -2,47 +2,49 @@
 	<a class="entry" :href="info.homepage" target="_blank">
 		<h2>{{ info.name }}</h2>
 		<div class="info">
+			<p class="link">{{ info.homepage }}</p>
+			<p class="lang">({{ info.lang }})</p>
+		</div>
+		<div class="details">
 			<div v-if="info.api" class="logo">
 				{{ getWikiLogo(info.api) }}
 				<img :src="imageUrls[info.api]" />
 			</div>
-			<p>URL: {{ info.homepage }}</p>
-			<p>Language: {{ info.lang }}</p>
-		</div>
-		<div class="categories">
-			<div v-if="info.games" class="category">
-				<div>
-					<h3>Games</h3>
-					<button @click.prevent="changeCollapse('games')">{{ gamesCollapsed ? "+" : "-" }}</button>
+			<div class="categories" @click.prevent>
+				<div v-if="info.games" class="category">
+					<div>
+						<h3>Games</h3>
+						<button @click.prevent="changeCollapse('games')">{{ gamesCollapsed ? "+" : "-" }}</button>
+					</div>
+					<ul :style="'display: ' + (gamesCollapsed ? 'none' : 'block')">
+						<li v-for="game in info.games">{{ game }}</li>
+					</ul>
 				</div>
-				<ul :style="'display: ' + (gamesCollapsed ? 'none' : 'block')">
-					<li v-for="game in info.games">{{ game }}</li>
-				</ul>
-			</div>
-			<div v-if="info.series" class="category">
-				<div>
-					<h3>Series</h3>
-					<button @click.prevent="changeCollapse('series')">{{ seriesCollapsed ? "+" : "-" }}</button>
+				<div v-if="info.series" class="category">
+					<div>
+						<h3>Series</h3>
+						<button @click.prevent="changeCollapse('series')">{{ seriesCollapsed ? "+" : "-" }}</button>
+					</div>
+					<ul :style="'display: ' + (seriesCollapsed ? 'none' : 'block')">
+						<li v-for="series in info.series">{{ series }}</li>
+					</ul>
 				</div>
-				<ul :style="'display: ' + (seriesCollapsed ? 'none' : 'block')">
-					<li v-for="series in info.series">{{ series }}</li>
-				</ul>
-			</div>
-			<div v-if="info.companies" class="category">
-				<div>
-					<h3>Companies</h3>
-					<button @click.prevent="changeCollapse('companies')">{{ companiesCollapsed ? "+" : "-" }}</button>
+				<div v-if="info.companies" class="category">
+					<div>
+						<h3>Companies</h3>
+						<button @click.prevent="changeCollapse('companies')">{{ companiesCollapsed ? "+" : "-" }}</button>
+					</div>
+					<ul :style="'display: ' + (companiesCollapsed ? 'none' : 'block')">
+						<li v-for="company in info.companies">{{ company }}</li>
+					</ul>
 				</div>
-				<ul :style="'display: ' + (companiesCollapsed ? 'none' : 'block')">
-					<li v-for="company in info.companies">{{ company }}</li>
-				</ul>
-			</div>
-			<div v-if="info.genres" class="category">
-				<h3>Genres</h3>
-				<button @click.prevent="changeCollapse('genres')">{{ genresCollapsed ? "+" : "-" }}</button>
-				<ul :style="'display: ' + (genresCollapsed ? 'none' : 'block')">
-					<li v-for="genres in info.genres">{{ genres }}</li>
-				</ul>
+				<div v-if="info.genres" class="category">
+					<h3>Genres</h3>
+					<button @click.prevent="changeCollapse('genres')">{{ genresCollapsed ? "+" : "-" }}</button>
+					<ul :style="'display: ' + (genresCollapsed ? 'none' : 'block')">
+						<li v-for="genres in info.genres">{{ genres }}</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</a>
@@ -76,6 +78,7 @@
 						this.imageUrls[url] = "none.png";
 					})
 					.then((response) => {
+						if (!response) return;
 						let image = response.query.general.logo;
 						if (image.includes("change-your-logo.svg")) {
 							this.imageUrls[url] = "none.png";
@@ -100,30 +103,24 @@
 						break;
 				}
 			}
-		},
-		mounted() {
-			console.log("Test");
 		}
 	});
 </script>
 
 <style scoped>
 	.entry {
-		width: 50%;
-		max-width: 100%;
-		min-height: 10rem;
+		position: relative;
+		width: 100%;
+		min-height: 20rem;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: center;
 		text-decoration: none;
 		border: 3px solid var(--color-border);
-		padding: 10px;
-	}
-	@media screen and (max-width: 1079px) {
-		.entry {
-			width: 90%;
-		}
+		border-right: none;
+		border-left: none;
+		background-color: var(--color-background-soft);
 	}
 	.entry:hover {
 		border-color: var(--color-border-hover);
@@ -147,39 +144,57 @@
 		color: var(--color-heading);
 		font-weight: bold;
 	}
+	.link {
+		text-decoration: underline;
+		color: var(--accent);
+	}
+	.lang {
+		font-weight: bold;
+		font-size: 1.25rem;
+	}
 
 	.info {
-		width: 100%;
+		max-width: 100%;
+		min-width: 50%;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		justify-content: space-between;
+		justify-content: space-evenly;
 		flex-wrap: wrap;
+		margin-bottom: 1rem;
+	}
+	.info p {
+		margin: 0 1rem 0 1rem;
+		max-width: 100%;
+		word-break: break-all;
 	}
 	.categories {
-		width: 100%;
+		width: 70%;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		cursor: default;
 	}
 	.category {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
-		align-items: center;
+		align-items: flex-start;
 	}
 	.category div {
+		min-width: 100%;
 		display: flex;
 		flex-direction: row;
-		justify-content: center;
+		justify-content: flex-start;
 		align-items: center;
 		height: 100%;
 	}
 	.category button {
 		height: 1.5rem;
 		aspect-ratio: 1;
+		margin-left: 0.5rem;
 	}
 	.category ul {
 		width: 100%;
@@ -188,8 +203,20 @@
 		align-items: flex-start;
 	}
 
+	.details {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: flex-start;
+		width: 100%;
+		padding-left: 3rem;
+		padding-right: 3rem;
+		flex-wrap: wrap;
+		margin-bottom: 1rem;
+	}
 	.logo img {
 		width: 15rem;
-		height: 15rem;
+		aspect-ratio: 1;
+		max-width: 100%;
 	}
 </style>
