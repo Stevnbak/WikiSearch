@@ -8,7 +8,7 @@ export async function Data() {
 		let raw = await response.json();
 		//For testing to make list bigger:
 		let data = [];
-		for (let i = 0; i < 100; i++) {
+		for (let i = 0; i < 1; i++) {
 			data.push(...raw);
 		}
 		rawData = data;

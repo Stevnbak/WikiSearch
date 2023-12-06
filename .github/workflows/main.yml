@@ -19,3 +19,4 @@ jobs:
                   username: "Stevnbak"
                   reponame: "WikiSearch"
                   token: ${{ secrets.GITHUB_TOKEN }}
+                  cname: "wikisearch.stevnbak.dk"
