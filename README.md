@@ -1,4 +1,4 @@
-# [WikiSearch](https://stevnbak.github.io/WikiSearch/)
+# [WikiSearch](https://wikisearch.stevnbak.dk)
 Indie wiki search engine for finding independent wikis, based on search terms like game, developer etc..
 
 ## Data
